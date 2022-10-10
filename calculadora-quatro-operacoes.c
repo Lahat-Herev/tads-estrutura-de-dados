@@ -43,6 +43,7 @@ int calcula(int firstNumber, int secondNumber, char operation)
 
     case '/': 
         result = divisaoNumeros(firstNumber, secondNumber);
+        break;
     
     default:
         printf("Esse caractere nao aponta para nenhuma funcao!");
