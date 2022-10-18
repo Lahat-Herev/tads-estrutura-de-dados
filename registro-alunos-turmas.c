@@ -30,25 +30,6 @@ void lerPalavra(char *palavra, int tamanho)
     tiraEspaco(palavra);
 }
 
-int salvarCadastroNoArquivo(int iterador)
-{
-    FILE *arquivo;
-    arquivo = fopen("turma.txt", "a");
-
-    if (arquivo == NULL)
-    {
-        fprintf(stderr, "\nErro ao abrir arquivo turma.txt");
-        return (1);
-    }
-    else
-    {
-        fwrite(&turma.aluno[0], sizeof(struct Aluno), iterador, arquivo);
-        fclose(arquivo);
-    }
-
-    return 0;
-}
-
 struct Aluno cadastrarAluno()
 {
     struct Aluno aluno;
@@ -80,6 +61,27 @@ struct Aluno cadastrarAluno()
         strcpy(aluno.situacao, "Aprovado");
     }
     strcpy(aluno.situacao, "Reprovado");
+
+    return aluno;
+}
+
+int salvarCadastroNoArquivo(int iterador)
+{
+    FILE *arquivo;
+    arquivo = fopen("turma.txt", "a");
+
+    if (arquivo == NULL)
+    {
+        fprintf(stderr, "\nErro ao abrir arquivo turma.txt");
+        return (1);
+    }
+    else
+    {
+        fwrite(&turma.aluno[0], sizeof(struct Aluno), iterador, arquivo);
+        fclose(arquivo);
+    }
+
+    return 0;
 }
 
 int visualizarAlunosCadastradosNaTurma()
@@ -156,11 +158,28 @@ int main()
     int opcao;
     char buffer[100];
 
-    printf("Digite a quantidade de alunos da turma: ");
-    scanf("%d", &quantidade);
+    menu();
 
-    struct Turma turma;
-    struct Aluno aluno[quantidade];
+    switch (opcao)
+    {
+    case 1:
+        
+        break;
+    
+    default:
+        break;
+    }
 
     return 0;
 }
+
+/**
+ * @brief 
+ * leString - lerPalavra
+ * tiraf - tirarEspaco
+ * leAluno - cadastrarAluno
+ * salvaCadastro - salvarCadastroNoArquivo
+ * leCadastro - visualizarAlunosCadastradosNaTurma
+ * carregaCadastro - carregarDadosDoArquivo
+ * listaCadastro - visualizarDadosDeTodosOsAlunos
+ */
