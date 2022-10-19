@@ -16,7 +16,6 @@ struct Aluno
 struct Turma
 {
     struct Aluno aluno[40];
-    int contagem;
 } turma;
 
 void tirarEspaco(char *palavra)
@@ -129,18 +128,18 @@ int carregarDadosDoArquivo()
     return (j - 1);
 }
 
-void visualizarDadosDeTodosOsAlunos(int i)
+void visualizarDadosDeTodosOsAlunos(int quantidade)
 {
-    int j;
+    int contador;
 
-    for (j = 0; j < i; j++)
+    for (contador = 0; contador < quantidade; contador++)
     {
         printf("\nMatricula(%d) - Nome(%s) - Faltas(%d) - Media (%lf) - Situacao: (%s)",
-               turma.aluno[j].matricula,
-               turma.aluno[j].nome,
-               turma.aluno[j].faltas,
-               turma.aluno[j].media,
-               turma.aluno[j].situacao);
+               turma.aluno[contador].matricula,
+               turma.aluno[contador].nome,
+               turma.aluno[contador].faltas,
+               turma.aluno[contador].media,
+               turma.aluno[contador].situacao);
     }
 }
 
