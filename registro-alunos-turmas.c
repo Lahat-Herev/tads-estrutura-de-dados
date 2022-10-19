@@ -135,7 +135,7 @@ void visualizarDadosDeTodosOsAlunos(int i)
 
     for (j = 0; j < i; j++)
     {
-        printf("\n%d - %s - Sexo(%c) - Nasc. %s - Fone: %s",
+        printf("\nMatricula(%d) - Nome(%s) - Faltas(%d) - Media (%lf) - Situacao: (%s)",
                turma.aluno[j].matricula,
                turma.aluno[j].nome,
                turma.aluno[j].faltas,
@@ -180,7 +180,7 @@ int main()
             carregarDadosDoArquivo();
             break;
         }
-    } while ((opcao < 0) || (opcao > 5));
+    } while ((opcao > 0) && (opcao < 5));
     return codigo;
 }
 
