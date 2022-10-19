@@ -27,7 +27,7 @@ void tirarEspaco(char *palavra)
 void lerPalavra(char *palavra, int tamanho)
 {
     fgets(palavra, tamanho, stdin);
-    tiraEspaco(palavra);
+    tirarEspaco(palavra);
 }
 
 struct Aluno cadastrarAluno()
@@ -60,7 +60,10 @@ struct Aluno cadastrarAluno()
     {
         strcpy(aluno.situacao, "Aprovado");
     }
-    strcpy(aluno.situacao, "Reprovado");
+    else
+    {
+        strcpy(aluno.situacao, "Reprovado");
+    }
 
     return aluno;
 }
@@ -97,7 +100,6 @@ int visualizarAlunosCadastradosNaTurma()
         lerPalavra(buffer, sizeof(buffer));
         continua = buffer[0];
         i++;
-        printf("Continua = %c", continua);
     } while ((continua == 's') && (i < 40));
 
     return i;
@@ -145,36 +147,45 @@ void visualizarDadosDeTodosOsAlunos(int i)
 void menu()
 {
     printf("O que gostaria de fazer?");
-    printf("1 - Inserir alunos");
-    printf("2 - Listar alunos");
-    printf("3 - Salvar dados no arquivo");
-    printf("4 - Carregar dados do arquivo");
-    printf("5 - Sair");
+    printf("\n1 - Inserir alunos");
+    printf("\n2 - Listar alunos");
+    printf("\n3 - Salvar dados no arquivo");
+    printf("\n4 - Carregar dados do arquivo");
+    printf("\n5 - Sair\n");
 }
 
 int main()
 {
-    int quantidade;
-    int opcao;
-    char buffer[100];
+    int numeroAlunos, codigo, opcao;
 
-    menu();
-
-    switch (opcao)
+    numeroAlunos = 0;
+    do
     {
-    case 1:
-        
-        break;
-    
-    default:
-        break;
-    }
-
-    return 0;
+        menu();
+        scanf("%d", &opcao);
+        switch (opcao)
+        {
+        case 1:
+            numeroAlunos = visualizarAlunosCadastradosNaTurma();
+            break;
+        case 2:
+            visualizarDadosDeTodosOsAlunos(numeroAlunos);
+            break;
+        case 3:
+            codigo = salvarCadastroNoArquivo(numeroAlunos);
+            if (codigo == 0)
+                printf("\nCadastro salvo com sucesso");
+            break;
+        case 4:
+            carregarDadosDoArquivo();
+            break;
+        }
+    } while ((opcao < 0) || (opcao > 5));
+    return codigo;
 }
 
 /**
- * @brief 
+ * @brief
  * leString - lerPalavra
  * tiraf - tirarEspaco
  * leAluno - cadastrarAluno
