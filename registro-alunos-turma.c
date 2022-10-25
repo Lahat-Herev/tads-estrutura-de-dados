@@ -15,7 +15,10 @@ struct Aluno
 struct Turma
 {
     struct Aluno aluno[40];
+    int quantidadeAlunosCadastrados;
 } turma;
+
+void salvarAlunoNoArquivo(struct Aluno aluno);
 
 void tirarEspaco(char *palavra)
 {
@@ -64,12 +67,15 @@ void cadastrarAluno(int quantidadeAlunos)
         {
             strcpy(turma.aluno[iterador].situacao, "Reprovado");
         }
+        salvarAlunoNoArquivo(turma.aluno[iterador]);
+        turma.quantidadeAlunosCadastrados++;
     }
 }
 
 void editarAluno(int quantidadeAlunos, int matricula)
 {
-    char dado[15];
+    char dado;
+    char buffer[100];
     int posicao = -1;
     int sair = 1;
     for (int i = 0; i < quantidadeAlunos; i++)
@@ -86,46 +92,82 @@ void editarAluno(int quantidadeAlunos, int matricula)
             printf("Digite o dado que deseja alterar: \n");
             printf("1 - Nome\n");
             printf("2 - Faltas\n");
-            printf("3 - Situacao\n");
-            printf("4 - Prova 1\n");
-            printf("5 - Prova 2\n");
+            printf("3 - Prova 1\n");
+            printf("4 - Prova 2\n");
             scanf("%s", dado);
             if (strcmp("1", dado) == 0)
             {
                 char nome[40];
                 printf("Digite o nome: \n");
                 scanf("%s", nome);
+                lerPalavra(nome, sizeof(nome));
                 strcpy(nome, turma.aluno[posicao].nome);
             }
             if (strcmp("2", dado) == 0)
             {
                 int faltas;
                 printf("\nDigite o quantidade de faltas: \n");
-                scanf("%d", faltas);
+                lerPalavra(buffer, sizeof(buffer));
+                sscanf(buffer, "%d", &faltas);
                 strcpy(faltas, turma.aluno[posicao].faltas);
             }
             if (strcmp("3", dado) == 0)
-            {
-                char situacao[20];
-                printf("\nDigite a situação [Aprovado ou Reprovado]: \n");
-                scanf("%s", situacao);
-                strcpy(situacao, turma.aluno[posicao].situacao);
-            }
-            if (strcmp("4", dado) == 0)
             {
                 double prova1;
                 printf("\nDigite a nota da primeira prova: \n");
                 scanf("%lf", &prova1);
                 turma.aluno[posicao].prova1 = prova1;
             }
-            if (strcmp("5", dado) == 0)
+            if (strcmp("4", dado) == 0)
             {
                 double prova2;
                 printf("\nDigite a nota da segunda prova: \n");
                 scanf("%lf", &prova2);
                 turma.aluno[posicao].prova2 = prova2;
             }
+            salvarAlunoNoArquivo(turma.aluno[posicao]);
+            printf("\nGostaria de sair do menu? [0 - Sair] [1 - Continuar] \n");
+            scanf("%d", &dado);
         }
+        turma.aluno[posicao].media = (turma.aluno[posicao].prova1 + turma.aluno[posicao].prova2) / 2;
+        if (turma.aluno[posicao].media >= 6 && turma.aluno[posicao].faltas <= 20)
+        {
+            strcpy(turma.aluno[posicao].situacao, "Aprovado");
+        }
+        else
+        {
+            strcpy(turma.aluno[posicao].situacao, "Reprovado");
+        }
+        printf("\n");
+    }
+}
+
+void salvarAlunoNoArquivo(struct Aluno aluno)
+{
+    FILE *arquivo;
+    arquivo = fopen("alunos.txt", "w");
+    if (arquivo == NULL)
+    {
+        fprintf(stderr, "\nErro ao abrir arquivo turma.txt");
+        return (1);
+    }
+    fwrite(&aluno, sizeof(struct Aluno), 1, arquivo);
+}
+
+void mostrarAlunosCadastrados()
+{
+    if (turma.quantidadeAlunosCadastrados < 1)
+        return;
+    for (int i = 0; i < turma.quantidadeAlunosCadastrados; i++)
+    {
+        printf("\nNome: %s\nSituacao: %s\nMatricula: %d\nFaltas: %d\nProva 1: %lf\nProva 2: %lf\nMedia: %lf\n",
+               turma.aluno[i].nome,
+               turma.aluno[i].situacao,
+               turma.aluno[i].matricula,
+               turma.aluno[i].faltas,
+               turma.aluno[i].prova1,
+               turma.aluno[i].prova2,
+               turma.aluno[i].media);
     }
 }
 
