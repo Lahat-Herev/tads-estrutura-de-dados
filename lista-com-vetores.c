@@ -77,6 +77,7 @@ int main()
 {
     menu();
     int operacao;
+    char elemento[20];
     scanf("%d", &operacao);
     Lista l;
     do
@@ -84,12 +85,10 @@ int main()
         switch (operacao)
         {
         case 1:
-            cadastrarAluno(quantidadeAlunos);
+            insereLista(l, elemento);
             break;
         case 2:
-            printf("Digite a matricula do aluno: ");
-            scanf("%d", &matricula);
-            editarAluno(quantidadeAlunos, matricula);
+            retiraLista(l, elemento);
             break;
         case 3:
             criaLista(l);
