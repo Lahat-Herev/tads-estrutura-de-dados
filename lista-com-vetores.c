@@ -9,37 +9,39 @@ typedef char Lista[MaxItens][TamItem];
 void criaLista(Lista l)
 {
     int i;
-    for (i=0;i<MaxItens;i++)
-    l[i][0] = '\0';
+    for (i = 0; i < MaxItens; i++)
+        l[i][0] = '\0';
 }
 
 void imprimeLista(Lista l)
 {
     int i;
     printf("\nItens da lista\n");
-    for(i=0; i<MaxItens && strlen(l[i])>0; i++)
-    printf("\n%s",l[i]);
+    for (i = 0; i < MaxItens && strlen(l[i]) > 0; i++)
+        printf("\n%s", l[i]);
     printf("\n");
 }
 
 int contaLista(Lista l)
 {
     int i;
-    for (i = 0; i<MaxItens && strlen(l[i])>0; i++);
-    return(i);
+    for (i = 0; i < MaxItens && strlen(l[i]) > 0; i++)
+        ;
+    return (i);
 }
 
 void insereLista(Lista l, char *item)
 {
     int i;
-    for(i=0; i<MaxItens && strlen(l[i])>0; i++);
+    for (i = 0; i < MaxItens && strlen(l[i]) > 0; i++)
+        ;
 
-    if (i<MaxItens)
+    if (i < MaxItens)
     {
-        strcpy(l[i],item); 
-        printf("\nItem (%s) inserido com sucesso",item);
+        strcpy(l[i], item);
+        printf("\nItem (%s) inserido com sucesso", item);
     }
-    else 
+    else
         printf("\nLista cheia, não pode inserir");
 }
 
@@ -47,44 +49,59 @@ void retiraLista(Lista l, char *item)
 {
     int i;
 
-    for(i=0; i<MaxItens && strlen(l[i])>0 && (strcmp(l[i],item) != 0); i++);
-    if (i<MaxItens && (strcmp(l[i],item) == 0))
-    { 
-        printf("\nItem (%s) encontrado, removendo",item);
-        if (i < (MaxItens-1))
-        { 
-            for (;i<(MaxItens-1) && strlen(l[i])>0;i++)
-            strcpy(l[i],l[i+1]);
+    for (i = 0; i < MaxItens && strlen(l[i]) > 0 && (strcmp(l[i], item) != 0); i++)
+        ;
+    if (i < MaxItens && (strcmp(l[i], item) == 0))
+    {
+        printf("\nItem (%s) encontrado, removendo", item);
+        if (i < (MaxItens - 1))
+        {
+            for (; i < (MaxItens - 1) && strlen(l[i]) > 0; i++)
+                strcpy(l[i], l[i + 1]);
         }
-            l[MaxItens-1][0] = '\0';
+        l[MaxItens - 1][0] = '\0';
     }
-    else 
-        printf("\nItem (%s) não encontrado",item);
+    else
+        printf("\nItem (%s) não encontrado", item);
 }
 
 void menu()
 {
     printf("\nDigite o numero equivalente ao que deseja fazer: \n");
-    printf("1 - Inserir elemento\n");
+    printf("\n1 - Inserir elemento\n");
     printf("\n2 - Retirar elemento \n");
     printf("\n3 - Criar lista \n");
     printf("\n4 - Contar elementos da lista \n");
     printf("\n5 - Exibir o conteúdo da lista \n");
-}   
+}
 
+void tirarEspaco(char *palavra)
+{
+    palavra[strlen(palavra) - 1] = '\0';
+}
+
+void lerPalavra(char *palavra, int tamanho)
+{
+    fgets(palavra, tamanho, stdin);
+    tirarEspaco(palavra);
+}
 
 int main()
 {
-    menu();
     int operacao;
-    char elemento[20];
-    scanf("%d", &operacao);
+    char elemento[TamItem];
     Lista l;
+    criaLista(l);
     do
     {
+        menu();
+        scanf("%d", &operacao);
+        fflush(stdin);
         switch (operacao)
         {
         case 1:
+            printf("Entre com o item: ");
+            lerPalavra(elemento, sizeof(elemento));
             insereLista(l, elemento);
             break;
         case 2:
@@ -94,7 +111,8 @@ int main()
             criaLista(l);
             break;
         case 4:
-            contaLista(l);
+            printf("A lista tem %d elementos", contaLista(l));
+            ;
             break;
         case 5:
             imprimeLista(l);
