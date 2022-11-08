@@ -59,8 +59,9 @@ Lista insereLista(Lista lista, int elemento)
     Lista anterior, proximo, novo;
     anterior = lista;
     novo = malloc(sizeof(struct elemento));
+    novo->dado = elemento;
     proximo = lista;
-    while (proximo != NULL && elemento > proximo->dado)
+    while ((proximo != NULL) && (elemento > proximo->dado))
     {
         anterior = proximo;
         proximo = proximo->proximo;
@@ -73,7 +74,6 @@ Lista insereLista(Lista lista, int elemento)
     {
         lista = novo;
     }
-    anterior->proximo = novo;
     novo->proximo = proximo;
     return (lista);
 }
